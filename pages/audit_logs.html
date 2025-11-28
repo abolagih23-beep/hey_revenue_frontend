@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <title>Audit Logs - Hey Revenue</title>
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <script src="../js/audit.js" defer></script>
+</head>
+<body>
+    <div id="navbar"></div>
+    <div class="dashboard-container">
+        <div id="sidebar"></div>
+        <div class="dashboard-main">
+            <h1>Audit Logs</h1>
+            <table id="auditLogsTable">
+                <tr><th>ID</th><th>User</th><th>Action</th><th>Details</th><th>Date</th></tr>
+            </table>
+            <button onclick="window.location='/pdf/export_audit'">Download PDF</button>
+            <button onclick="window.location='/logs/export_audit'">Download Excel</button>
+        </div>
+    </div>
+    <div id="footer"></div>
+</body>
+</html>

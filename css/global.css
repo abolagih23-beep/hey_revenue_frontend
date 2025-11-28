@@ -1,0 +1,27 @@
+/* Global styles, fonts, dark/light theme support */
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: all 0.3s ease;
+}
+
+:root {
+    --bg-color: #f4f4f9;
+    --text-color: #333;
+    --primary-color: #4e73df;
+    --secondary-color: #1cc88a;
+}
+
+[data-theme="dark"] {
+    --bg-color: #1e1e2f;
+    --text-color: #f1f1f1;
+    --primary-color: #4e73df;
+    --secondary-color: #1cc88a;
+}
+
+button, a {
+    cursor: pointer;
+}

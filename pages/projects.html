@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <title>Projects - Hey Revenue</title>
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <script src="../js/main.js" defer></script>
+    <script src="../js/ajax.js" defer></script>
+</head>
+<body>
+    <div id="navbar"></div>
+    <div class="dashboard-container">
+        <div id="sidebar"></div>
+        <div class="dashboard-main">
+            <h1>Projects</h1>
+            <div id="project-list">
+                <!-- Project cards loaded via AJAX -->
+            </div>
+        </div>
+    </div>
+    <div id="footer"></div>
+    <script>
+        fetch("/api/projects")
+        .then(res => res.json())
+        .then(data => {
+            const container = document.getElementById("project-list");
+            data.forEach(p => {
+                container.innerHTML += `<div class="project-card fade-in">
+                    <h3>${p.name}</h3>
+                    <p>${p.description}</p>
+                    <p>Status: ${p.status}</p>
+                </div>`;
+            });
+        });
+    </script>
+</body>
+</html>

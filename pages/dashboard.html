@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard - Hey Revenue</title>
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="../css/animations.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="../js/main.js" defer></script>
+    <script src="../js/charts.js" defer></script>
+    <script src="../js/notifications.js" defer></script>
+    <script src="../js/ajax.js" defer></script>
+</head>
+<body>
+    <!-- Navbar Component -->
+    <div id="navbar"></div>
+
+    <!-- Sidebar Component -->
+    <div id="sidebar"></div>
+
+    <!-- Main Dashboard Content -->
+    <div class="dashboard-container">
+        <div class="dashboard-main">
+            <h1>Welcome, <span id="username"></span></h1>
+
+            <!-- Key Metrics Cards -->
+            <div class="metrics-cards">
+                <div class="card">
+                    <h3>Total Revenue</h3>
+                    <p id="totalRevenue">₦0</p>
+                </div>
+                <div class="card">
+                    <h3>Active Projects</h3>
+                    <p id="activeProjects">0</p>
+                </div>
+                <div class="card">
+                    <h3>Pending Tasks</h3>
+                    <p id="pendingTasks">0</p>
+                </div>
+                <div class="card role-admin role-supervisor">
+                    <h3>Audit Logs</h3>
+                    <p id="auditLogsCount">0</p>
+                </div>
+            </div>
+
+            <!-- Analytics Graph -->
+            <div class="analytics-section">
+                <h2>Revenue Analytics</h2>
+                <canvas id="analyticsChart" width="800" height="400"></canvas>
+            </div>
+
+            <!-- PDF / Excel Export Buttons -->
+            <div class="export-buttons role-admin role-supervisor">
+                <button onclick="window.location='/pdf/export_revenue'">Export Revenue PDF</button>
+                <button onclick="window.location='/logs/export_revenue'">Export Revenue Excel</button>
+                <button onclick="window.location='/pdf/export_projects'">Export Projects PDF</button>
+                <button onclick="window.location='/logs/export_projects'">Export Projects Excel</button>
+            </div>
+
+            <!-- Notifications Panel -->
+            <div id="notifications-panel"></div>
+        </div>
+    </div>
+
+    <!-- Footer Component -->
+    <div id="footer"></div>
+
+    <script>
+        // Load user info
+        fetch('/api/user/profile')
+            .then(res => res.json())
+            .then(user => {
+                document.getElementById('username').innerText = user.name;
+                // Role-based UI
+                if(user.role === 'User'){
+                    document.querySelectorAll('.role-admin, .role-supervisor').forEach(el => el.style.display = 'none');
+                }
+            });
+
+        // Load key metrics
+        fetch('/api/dashboard/metrics')
+            .then(res => res.json())
+            .then(metrics => {
+                document.getElementById('totalRevenue').innerText = `₦${metrics.totalRevenue.toLocaleString()}`;
+                document.getElementById('activeProjects').innerText = metrics.activeProjects;
+                document.getElementById('pendingTasks').innerText = metrics.pendingTasks;
+                document.getElementById('auditLogsCount').innerText = metrics.auditLogs;
+            });
+
+        // Load analytics chart
+        fetch('/api/dashboard/analytics')
+            .then(res => res.json())
+            .then(data => {
+                const ctx = document.getElementById('analyticsChart').getContext('2d');
+                new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: data.labels,
+                        datasets: [{
+                            label: 'Revenue (₦)',
+                            data: data.values,
+                            backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                            borderColor: 'rgba(54, 162, 235, 1)',
+                            borderWidth: 2,
+                            fill: true,
+                            tension: 0.4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: { display: true },
+                            tooltip: { mode: 'index', intersect: false }
+                        },
+                        scales: {
+                            x: { title: { display: true, text: 'Month' } },
+                            y: { title: { display: true, text: 'Revenue (₦)' } }
+                        }
+                    }
+                });
+            });
+
+        // Load notifications
+        fetch('/api/notifications')
+            .then(res => res.json())
+            .then(notifications => {
+                const container = document.getElementById('notifications-panel');
+                notifications.forEach(n => {
+                    const div = document.createElement('div');
+                    div.className = 'notification';
+                    div.innerText = `${n.message} (${new Date(n.date).toLocaleString()})`;
+                    container.appendChild(div);
+                });
+            });
+
+        // Theme Toggle
+        document.getElementById('theme-toggle').addEventListener('click', () => {
+            const html = document.documentElement;
+            html.dataset.theme = html.dataset.theme === 'light' ? 'dark' : 'light';
+        });
+    </script>
+</body>
+</html>

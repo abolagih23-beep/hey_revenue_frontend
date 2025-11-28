@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <title>Reports - Hey Revenue</title>
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
+</head>
+<body>
+    <div id="navbar"></div>
+    <div class="dashboard-container">
+        <div id="sidebar"></div>
+        <div class="dashboard-main">
+            <h1>Reports</h1>
+            <button onclick="window.location='/pdf/export_revenue'">Revenue PDF</button>
+            <button onclick="window.location='/logs/export_revenue'">Revenue Excel</button>
+            <button onclick="window.location='/pdf/export_projects'">Project PDF</button>
+            <button onclick="window.location='/logs/export_projects'">Project Excel</button>
+            <button onclick="window.location='/pdf/export_audit'">Audit PDF</button>
+            <button onclick="window.location='/logs/export_audit'">Audit Excel</button>
+        </div>
+    </div>
+    <div id="footer"></div>
+</body>
+</html>
