@@ -2,21 +2,39 @@
 <html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hey Revenue Tracking System</title>
-    <link rel="stylesheet" href="../css/global.css">
-    <link rel="stylesheet" href="../css/auth.css">
-    <script src="../js/main.js" defer></script>
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/auth.css">
+    <script src="js/main.js" defer></script>
 </head>
 <body>
     <div id="navbar"></div>
+
     <div class="auth-container fade-in">
         <h1>Welcome to Hey Revenue Tracking System</h1>
         <p>Track revenue, manage projects and users seamlessly.</p>
 
-        <!-- Updated links -->
         <a href="pages/login.html"><button>Login</button></a>
         <a href="pages/register.html"><button>Register</button></a>
     </div>
+
     <div id="footer"></div>
+
+    <script>
+        // Optional: theme toggle on index page
+        const toggleBtn = document.createElement('button');
+        toggleBtn.innerText = "Toggle Theme";
+        toggleBtn.id = "theme-toggle";
+        toggleBtn.style.marginTop = "20px";
+        toggleBtn.onclick = () => {
+            const currentTheme = document.documentElement.getAttribute("data-theme");
+            document.documentElement.setAttribute(
+                "data-theme",
+                currentTheme === "light" ? "dark" : "light"
+            );
+        };
+        document.querySelector(".auth-container").appendChild(toggleBtn);
+    </script>
 </body>
 </html>
